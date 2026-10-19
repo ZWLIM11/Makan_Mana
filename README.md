@@ -87,3 +87,9 @@ Enable **Maps Embed API** and make a separate browser key restricted to Maps Emb
 - [Google Maps Embed API](https://developers.google.com/maps/documentation/embed/get-started)
 
 The public Nominatim and Overpass endpoints are not used as a production backend for this app.
+
+## Free venue details and distances
+
+Each real-place detail screen now includes a Google Maps venue search for reviews and prices, separate walking/driving directions, and source-provided menu, website, and phone links when available. External search may return multiple matches; check the restaurant name and address. No ratings or menu prices are scraped or invented.
+
+Distance labels distinguish a device location (with reported accuracy) from a searched area's centre. In-app distances are straight-line estimates; road distance and travel time are shown by Google Maps after opening directions. Location is requested only after consent and is not persisted by this app. Source hours can be raw OpenStreetMap notation and do not imply verified open-now status.
