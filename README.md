@@ -34,7 +34,20 @@ Connect this GitHub repository to Workers Builds. Root directory: repository roo
 
 Deploying without keys is supported and shows sample mode honestly. This repository has not created a Cloudflare deployment or enabled any paid Google services for you.
 
-### Enable real nearby food search
+### Recommended: free Geoapify + OpenStreetMap
+
+1. Create a free account at https://myprojects.geoapify.com/ and create a project.
+2. Copy its API key directly into Cloudflare → Workers & Pages → makan-mana → Settings → Variables and Secrets. Add **Secret** `GEOAPIFY_API_KEY`, then deploy/save the change. Do not put the key in Git or chat.
+3. Reload Makan Mana, choose Live search, enter an area (e.g. Setapak, Kuala Lumpur) and choose a food mood. Or use Find food near me. The separate optional restaurant-name field matches names, not arbitrary food descriptions.
+4. Open Map for an OpenStreetMap embed and selectable results. No Google key or billing setup is needed for this path.
+
+Geoapify is preferred automatically when its secret exists. Its free plan currently offers 3,000 credits/day, no card required; stay within its usage limits (https://www.geoapify.com/pricing/). Credits are not identical to searches: area lookup, places, and saved-place refresh consume requests. Monitor the provider dashboard. Our per-isolate throttle is not a global quota.
+
+Geoapify/OpenStreetMap results include names, addresses, coordinates and available source hours. Ratings, price levels and open-now status are not supplied by this integration, so their controls are disabled in live free mode. Halal/allergen status is never inferred. Coverage can be incomplete. Food artwork stays illustrative. Attribution is shown near results and the map.
+
+Searches and optional coordinates go to Geoapify through the server. Opening a map sends its selected location to OpenStreetMap. Only provider-prefixed saved IDs are persisted. Google-saved places stay in storage but are not fetched with the Geoapify key.
+
+### Alternative: Google Places nearby food search
 
 1. Create a Google Cloud project and enable **Places API (New)** with billing. Check current pricing before enabling it: requested rating, price, and opening-hours fields affect the SKU charged.
 2. Create a server API key restricted to Places API (New). Add the Worker **secret** `GOOGLE_PLACES_API_KEY` in Cloudflare Settings → Variables and Secrets, or use `npx wrangler secret put GOOGLE_PLACES_API_KEY` interactively. Never paste the secret into browser source, Git, or chat.
