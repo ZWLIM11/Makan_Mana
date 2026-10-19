@@ -93,3 +93,14 @@ The public Nominatim and Overpass endpoints are not used as a production backend
 Each real-place detail screen now includes a Google Maps venue search for reviews and prices, separate walking/driving directions, and source-provided menu, website, and phone links when available. External search may return multiple matches; check the restaurant name and address. No ratings or menu prices are scraped or invented.
 
 Distance labels distinguish a device location (with reported accuracy) from a searched area's centre. In-app distances are straight-line estimates; road distance and travel time are shown by Google Maps after opening directions. Location is requested only after consent and is not persisted by this app. Source hours can be raw OpenStreetMap notation and do not imply verified open-now status.
+
+## Discovery improvements
+
+- Location status names the searched area or device position, includes accuracy, and offers refresh/change-area controls with specific permission and timeout help.
+- Separate area and food fields. Recognised food words map to supported cuisine categories; unknown text remains a restaurant-name query. Individual dishes are not guaranteed.
+- Real Geoapify places appear as numbered, selectable Leaflet markers with an accessible place-button list. Moving the map never calls the search API automatically: use Search this area to search its centre using the selected radius.
+- Clean cards omit repeated missing-data labels; one explanation remains above the list and full availability details remain in the dialog.
+- Picker lets you choose current results or saved places, explains distance/category matches, and skips the last choice when alternatives exist. Existing filters still apply.
+- Skeleton loading, request cancellation and stale-response guards prevent old searches overwriting new results. Filters remain intact across screens; errors retain a retry action.
+
+Leaflet 1.9.4 is vendored under `public/vendor/`, including its BSD license. Live map tiles load directly from OpenStreetMap using browser caching and visible attribution. No tile prefetch/offline downloads are implemented. Public tiles are best-effort and subject to https://operations.osmfoundation.org/policies/tiles/; for substantial traffic move to a dedicated tile provider. Browser access was disabled during this change; automated behavior tests do not replace a real phone visual QA pass.
