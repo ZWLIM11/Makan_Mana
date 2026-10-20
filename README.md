@@ -127,3 +127,8 @@ Hide removes a place from results, map and picker, with Undo and a restorable hi
 In Saved, Back up saved downloads a versioned JSON file containing IDs and private notes. Import validates the file, previews the merge, respects the 12-place limit per mode, preserves existing notes, and fills missing notes. Files are read locally; no upload is performed. Restaurant details refresh from the existing provider when needed. Backups do not include live location or cached search results.
 
 After a search, the large hero is hidden. Active-filter chips expose cuisine, distance, minimum distance and saved-list filters; distance-group headers include visible/loaded counts, expand indicators, and local errors.
+
+
+## Integrated Jalan Mana planner
+
+Open `/trips/` from the Trips navigation link. The planner and food discovery share this Worker’s existing `GEOAPIFY_API_KEY`; no extra secret or paid service is needed. Trip geocoding uses `/api/trips/places`, while food APIs are unchanged. Trip data stays in browser local storage. Existing trips from the separate Jalan Mana domain must be exported there and imported here because browsers isolate storage by origin. The original site remains available for exporting backups.

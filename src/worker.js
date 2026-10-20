@@ -1,10 +1,11 @@
+import tripsWorker from './trips-worker.js';
 import {searchGeo,savedGeo} from './geoapify.js';
 import {normalize,validSearch} from '../public/core.js';
 const fields='id,displayName,formattedAddress,location,types,primaryTypeDisplayName,rating,userRatingCount,priceLevel,currentOpeningHours,googleMapsUri,websiteUri';
 const requests=new Map();
 function json(value,status=200){return new Response(JSON.stringify(value),{status,headers:{'Content-Type':'application/json','Cache-Control':'no-store','X-Content-Type-Options':'nosniff'}});}
 async function google(path,env,body){const response=await fetch(`https://places.googleapis.com/v1/${path}`,{method:body?'POST':'GET',headers:{'Content-Type':'application/json','X-Goog-Api-Key':env.GOOGLE_PLACES_API_KEY,'X-Goog-FieldMask':body?fields.split(',').map(f=>'places.'+f).join(','):fields},...(body?{body:JSON.stringify(body)}:{}),signal:AbortSignal.timeout(12000)});if(!response.ok)throw new Error(response.status===429?'BUSY':'PROVIDER');return response.json();}
-export default {async fetch(request,env){const url=new URL(request.url);if(!url.pathname.startsWith('/api/'))return env.ASSETS.fetch(request);
+export default {async fetch(request,env){const url=new URL(request.url);if(url.pathname.startsWith('/api/trips/'))return tripsWorker.fetch(request,env);if(!url.pathname.startsWith('/api/'))return env.ASSETS.fetch(request);
  if(url.pathname==='/api/config'&&request.method==='GET')return json({live:!!(env.GEOAPIFY_API_KEY||env.GOOGLE_PLACES_API_KEY),provider:env.GEOAPIFY_API_KEY?'geoapify':'google',mapKey:env.GEOAPIFY_API_KEY?'':env.GOOGLE_MAPS_EMBED_KEY||''});
  if(!['/api/search','/api/saved'].includes(url.pathname))return json({error:'Not found.'},404);
  if(request.method!=='POST')return json({error:'Use POST.'},405);
