@@ -33,3 +33,5 @@
 #toast button{color:inherit;border:1px solid currentColor;border-radius:8px;margin-left:12px;padding:7px 12px;min-height:44px}#toast{overflow-wrap:anywhere}
 
 .jalan-banner{display:flex;align-items:center;gap:18px;justify-content:space-between;background:#e6ebdd;border:1px solid #bdc9b2;padding:18px;border-radius:14px;margin:20px 0}.jalan-banner p{font-size:12px;line-height:1.6;margin-top:6px;overflow-wrap:anywhere}.jalan-banner button{flex-shrink:0}.jalan-add{width:100%;margin-top:10px;background:#e6ebdd}@media(max-width:700px){.jalan-banner{align-items:flex-start;flex-direction:column}.jalan-banner p{font-size:11px}.jalan-add{font-size:11px}}
+
+@media(max-width:700px){.mobile-nav a{min-width:0;flex:1}}
