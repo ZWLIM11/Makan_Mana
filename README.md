@@ -116,3 +116,14 @@ Leaflet 1.9.4 is vendored under `public/vendor/`, including its BSD license. Liv
 - View scroll positions, expanded groups, and the map viewport are retained during List/Map navigation. Closing restaurant details restores the background position.
 - Pick for me supports loaded results or saved places, filters, excluding visited places, and avoiding immediate repeats.
 - No additional paid API or service is required. Browser visual QA requires enabling local browser use in Work settings.
+
+
+## Decision and library tools
+
+Compare up to three loaded restaurants using the card Compare buttons and the Shortlist control. Comparison includes distances, cuisine, address, local visit status, private notes, and links. Share shortlist invokes the device share sheet; if unavailable, it offers clipboard/manual copying. Shared text contains names, addresses and map links, never private notes. No app server stores the shortlist.
+
+Hide removes a place from results, map and picker, with Undo and a restorable hidden list (up to 200, stored locally). Hiding does not delete saved notes. Saved cards show two-line note previews.
+
+In Saved, Back up saved downloads a versioned JSON file containing IDs and private notes. Import validates the file, previews the merge, respects the 12-place limit per mode, preserves existing notes, and fills missing notes. Files are read locally; no upload is performed. Restaurant details refresh from the existing provider when needed. Backups do not include live location or cached search results.
+
+After a search, the large hero is hidden. Active-filter chips expose cuisine, distance, minimum distance and saved-list filters; distance-group headers include visible/loaded counts, expand indicators, and local errors.
