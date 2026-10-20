@@ -16,3 +16,5 @@
 @media(max-width:700px){.skeleton-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.skeleton-grid>div:last-child{display:none}#food-map{height:340px}.location-summary{flex-direction:row}.location-summary span{flex-basis:100%}.map-tools .outline{width:100%}.card .card-bottom>span{font-size:10px}.dialog-actions a{max-width:100%;white-space:normal}}
 @media(max-width:370px){.skeleton-grid{grid-template-columns:1fr}.skeleton-grid>div:nth-child(2){display:none}}
 @media(prefers-reduced-motion:reduce){.skeleton-grid>div{animation:none!important}}
+
+.venue-check{display:flex;flex-direction:column;justify-content:center;gap:4px;min-height:48px;margin-top:12px;padding-top:12px;border-top:1px solid var(--line);font-size:13px;font-weight:600;overflow-wrap:anywhere}.venue-check small{font-size:10px;font-weight:400;color:var(--muted)}.venue-check:hover{text-decoration:underline;text-underline-offset:3px}
