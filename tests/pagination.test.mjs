@@ -26,11 +26,11 @@ test('local filtering includes minimum distance and excludes nearer places',()=>
  assert.deepEqual(filterPlaces(items,{center:base.center,radius:3,minDistance:1}).map(p=>p.id),['1','2']);
 });
 test('client appends unique places, retries failed pages, and caches repeats',async()=>{
- const source=readFileSync(new URL('../public/app.js',import.meta.url),'utf8');const fn=source.slice(source.indexOf('async function search(more=false)'),source.indexOf('\nasync function loadSaved'));
+ const source=readFileSync(new URL('../public/app.js',import.meta.url),'utf8');const fn=source.slice(source.indexOf('async function legacySearch(more=false)'),source.indexOf('\nlet savedLoading'));
  const ctx=vm.createContext({AbortController,Date,Map,console});
  vm.runInContext(`let mode='live',config={live:true},busy=false,hasMore=false,lastSearch=null,nextOffset=0,loadingMore=false,limitReached=false,requestId=0,activeSignal,mood='all',center={lat:3,lng:101},centerSource='device',areaLabel='',places=[],savedCache=[],saved=[],selected=null,error='',calls=0,fail=false;const searchCache=new Map();const nodes={'#radius':{value:'3'},'#search':{value:''},'#area':{value:''},'#min-distance':{value:'0'}};const $=s=>nodes[s],minDistance=()=>Number(nodes['#min-distance'].value),isGeo=()=>true,foodIntent=()=>({name:'',mood:'all'}),toast=()=>{},render=()=>{},notice=m=>error=m,allPlaces=()=>places;const latest={start:()=>({signal:new AbortController().signal})};async function api(path,body){calls++;if(fail)throw new Error('offline');return {places:body.offset?[{id:'b'},{id:'c'}]:[{id:'a'},{id:'b'}],center,hasMore:body.offset===0,nextOffset:body.offset+20};}${fn}`,ctx);
- await vm.runInContext('search()',ctx);assert.equal(vm.runInContext('places.length',ctx),2);
- vm.runInContext('fail=true',ctx);await vm.runInContext('search(true)',ctx);assert.equal(vm.runInContext('places.length',ctx),2);assert.equal(vm.runInContext('nextOffset',ctx),20);
- vm.runInContext('fail=false',ctx);await vm.runInContext('search(true)',ctx);assert.equal(vm.runInContext('places.length',ctx),3);assert.equal(vm.runInContext('hasMore',ctx),false);
- await vm.runInContext('search()',ctx);assert.equal(vm.runInContext('calls',ctx),3);assert.equal(vm.runInContext('places.length',ctx),2);
+ await vm.runInContext('legacySearch()',ctx);assert.equal(vm.runInContext('places.length',ctx),2);
+ vm.runInContext('fail=true',ctx);await vm.runInContext('legacySearch(true)',ctx);assert.equal(vm.runInContext('places.length',ctx),2);assert.equal(vm.runInContext('nextOffset',ctx),20);
+ vm.runInContext('fail=false',ctx);await vm.runInContext('legacySearch(true)',ctx);assert.equal(vm.runInContext('places.length',ctx),3);assert.equal(vm.runInContext('hasMore',ctx),false);
+ await vm.runInContext('legacySearch()',ctx);assert.equal(vm.runInContext('calls',ctx),3);assert.equal(vm.runInContext('places.length',ctx),2);
 });

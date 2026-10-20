@@ -108,10 +108,11 @@ Leaflet 1.9.4 is vendored under `public/vendor/`, including its BSD license. Liv
 
 ## Broader discovery
 
-- Geoapify searches load 20 results per click using provider offsets, deduplicate by place ID, and retain previous results on paging errors. At most 1,000 provider results can be traversed per search; coverage is never claimed to be exhaustive.
-- Starting from searches a geodesic polygon with an inner hole, then checks exact straight-line distance. For example, 1–3 km requests farther restaurants directly. Polygon edges approximate circles; very narrow boundary differences may occur.
-- List results are grouped into collapsible 1 km bands. List/Map controls stay reachable on phones; map selection reveals the selected card.
-- Recent search pages are cached only in browser memory for five minutes (up to 20 pages). Pagination is deliberate; there is no background prefetch or automatic infinite scrolling. Existing server rate limits remain active. Free provider quotas still apply.
-- Saved places support Want to try / Been there and 500-character personal notes. Notes, visit status, and filter preferences stay in localStorage on the current browser. Removing a saved place removes its notes; clearing browser storage removes all local data.
-- Pick for me supports current results or saved places, distance/cuisine filters, excluding visited places, and avoiding immediate repeats.
+- Geoapify initial searches request up to 10 places per 1 km distance band. A 3 km search queries 0–1, 1–2, and 2–3 km separately; cuisine applies to each. Each group has its own offset, Load 10 more, retry, loading and exhaustion state. Initial requests run sequentially and resolve an area only once.
+- Each group can traverse up to 1,000 provider results. Polygon distance bands are checked against exact straight-line distance; boundary approximations and incomplete map coverage mean this is not an exhaustive directory.
+- Recent pages stay in memory for five minutes, bounded to 40 pages. No automatic infinite scroll or background prefetch. Existing rate limits remain enabled. Wider searches require more API requests and free provider quotas still apply.
+- Phone cards use compact rows with distance badges, Save, Directions, and Prices & hours. Sticky distance tabs jump to expanded groups. The filter bottom sheet stages cuisine/distance changes and applies once; Cancel and Escape discard edits.
+- Saved places support Want to try / Been there, name search, and private notes. Stored only in this browser, without an account. Removing a saved place removes its notes.
+- View scroll positions, expanded groups, and the map viewport are retained during List/Map navigation. Closing restaurant details restores the background position.
+- Pick for me supports loaded results or saved places, filters, excluding visited places, and avoiding immediate repeats.
 - No additional paid API or service is required. Browser visual QA requires enabling local browser use in Work settings.
