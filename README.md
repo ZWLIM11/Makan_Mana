@@ -104,3 +104,14 @@ Distance labels distinguish a device location (with reported accuracy) from a se
 - Skeleton loading, request cancellation and stale-response guards prevent old searches overwriting new results. Filters remain intact across screens; errors retain a retry action.
 
 Leaflet 1.9.4 is vendored under `public/vendor/`, including its BSD license. Live map tiles load directly from OpenStreetMap using browser caching and visible attribution. No tile prefetch/offline downloads are implemented. Public tiles are best-effort and subject to https://operations.osmfoundation.org/policies/tiles/; for substantial traffic move to a dedicated tile provider. Browser access was disabled during this change; automated behavior tests do not replace a real phone visual QA pass.
+
+
+## Broader discovery
+
+- Geoapify searches load 20 results per click using provider offsets, deduplicate by place ID, and retain previous results on paging errors. At most 1,000 provider results can be traversed per search; coverage is never claimed to be exhaustive.
+- Starting from searches a geodesic polygon with an inner hole, then checks exact straight-line distance. For example, 1–3 km requests farther restaurants directly. Polygon edges approximate circles; very narrow boundary differences may occur.
+- List results are grouped into collapsible 1 km bands. List/Map controls stay reachable on phones; map selection reveals the selected card.
+- Recent search pages are cached only in browser memory for five minutes (up to 20 pages). Pagination is deliberate; there is no background prefetch or automatic infinite scrolling. Existing server rate limits remain active. Free provider quotas still apply.
+- Saved places support Want to try / Been there and 500-character personal notes. Notes, visit status, and filter preferences stay in localStorage on the current browser. Removing a saved place removes its notes; clearing browser storage removes all local data.
+- Pick for me supports current results or saved places, distance/cuisine filters, excluding visited places, and avoiding immediate repeats.
+- No additional paid API or service is required. Browser visual QA requires enabling local browser use in Work settings.
